@@ -1,4 +1,3 @@
-
 # ShopZone
 
 A full-featured e-commerce web application built with React and Node.js/Express, backed by PostgreSQL. Users can browse products, manage a shopping cart and wishlist, and place orders with multiple payment methods.
@@ -24,67 +23,72 @@ A full-featured e-commerce web application built with React and Node.js/Express,
 | Email | Nodemailer (Gmail SMTP) |
 
 ## Project Structure
+
+```
 ShopZone/
-├── client/ # React frontend
-│ └── src/
-│ ├── api/ # Axios instance with JWT interceptor
-│ ├── components/ # Navbar, ProductCard, CartItem, ImageCarousel, OrderSummary
-│ ├── pages/ # Home, ProductDetail, Cart, Checkout, OrderConfirmation,
-│ │ # OrderHistory, Wishlist, Login, Signup
-│ └── utils/ # formatPrice helper
-└── server/ # Express backend
-├── db/
-│ ├── pool.js # PostgreSQL connection pool
-│ ├── schema.sql # Database schema (8 tables)
-│ └── seed.sql # Sample data (70 products, 6 categories)
-├── middleware/
-│ └── auth.js # JWT authentication middleware
-├── routes/
-│ ├── auth.js # Signup / login
-│ ├── cart.js # Cart CRUD
-│ ├── orders.js # Order placement and history
-│ ├── products.js # Product listing and detail
-│ └── wishlist.js # Wishlist CRUD
-├── utils/
-│ └── email.js # Nodemailer Gmail SMTP helper
-├── public/
-│ └── images/ # Locally served product images
-└── index.js # Express app entry point
+├── client/                  # React frontend
+│   └── src/
+│       ├── api/             # Axios instance with JWT interceptor
+│       ├── components/      # Navbar, ProductCard, CartItem, ImageCarousel, OrderSummary
+│       ├── pages/           # Home, ProductDetail, Cart, Checkout, OrderConfirmation,
+│       │                    # OrderHistory, Wishlist, Login, Signup
+│       └── utils/           # formatPrice helper
+└── server/                  # Express backend
+    ├── db/
+    │   ├── pool.js          # PostgreSQL connection pool
+    │   └── schema.sql       # Database schema (8 tables)
+    └── index.js             # API routes and server entry point
+```
 
 ## Getting Started
+
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL
+
 ### 1. Database Setup
+
 ```bash
 psql -U postgres -c "CREATE DATABASE shopzone;"
 psql -U postgres -d shopzone -f server/db/schema.sql
+```
 
 ### 2. Backend
+
 ```bash
 cd server
 npm install
+```
 
 Create a `.env` file in `/server`:
+
 ```env
 DATABASE_URL=postgresql://postgres:<password>@localhost:5432/shopzone
 JWT_SECRET=your_jwt_secret
 GMAIL_USER=your_email@gmail.com
 GMAIL_PASS=your_app_password
 PORT=5000
+```
 
 ```bash
 node index.js
+```
 
 ### 3. Frontend
+
 ```bash
 cd client
 npm install
 npm start
+```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser. The React app proxies API calls to `http://localhost:5000`.
+
 ## API Overview
+
 All endpoints are prefixed with `/api`. Routes marked **Auth** require a `Bearer <token>` header.
+
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | POST | `/auth/signup` | | Register a new user |
@@ -102,7 +106,9 @@ All endpoints are prefixed with `/api`. Routes marked **Auth** require a `Bearer
 | POST | `/wishlist` | Yes | Add to wishlist |
 | GET | `/wishlist` | Yes | Get wishlist |
 | DELETE | `/wishlist/:id` | Yes | Remove from wishlist |
+
 ## Available Scripts (client)
+
 | Command | Description |
 |---------|-------------|
 | `npm start` | Start development server at localhost:3000 |
