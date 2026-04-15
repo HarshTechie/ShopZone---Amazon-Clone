@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
 
-// Gmail SMTP configuration
-const GMAIL_USER = 'harshtak2202@gmail.com';
-const GMAIL_APP_PASSWORD = 'ftwbdzdtwhuqazou';
+// Gmail SMTP configuration — loaded from environment variables
+// Set GMAIL_USER and GMAIL_PASS in Render dashboard
+const GMAIL_USER = process.env.GMAIL_USER || 'harshtak2202@gmail.com';
+const GMAIL_APP_PASSWORD = process.env.GMAIL_PASS || 'ftwbdzdtwhuqazou';
 
 // Singleton transporter — initialized once, reused for all emails
 let transporter = null;

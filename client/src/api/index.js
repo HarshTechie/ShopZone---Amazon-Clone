@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:5000';
+// Use REACT_APP_API_URL in production (set in Vercel env vars)
+// Falls back to local dev server for local development
+const SERVER_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const API = axios.create({
   baseURL: `${SERVER_URL}/api`,
 });
 
 // Convert a local image path (e.g. /images/foo.jpg) to a full URL
+// In production, images are served from the Render backend at SERVER_URL
 export const getImageUrl = (path) => {
   if (!path) return 'https://placehold.co/400x400?text=No+Image';
   if (path.startsWith('http')) return path; // already a full URL

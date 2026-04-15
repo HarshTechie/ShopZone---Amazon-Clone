@@ -2,7 +2,15 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'shopzone-secret-key-2024';
 
-// Strict auth — returns 401 if no valid token. Used for cart, orders, wishlist.
+// Warn loudly if using default secret in production
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.warn('[Auth] ⚠️  JWT_SECRET is not set in production! Using insecure default.');
+}
+
+/**
+ * Strict auth middleware — returns 401 if no valid token.
+ * Used for cart, orders, wishlist routes.
+ */
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
