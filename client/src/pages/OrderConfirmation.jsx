@@ -72,6 +72,8 @@ function OrderConfirmation() {
               <img
                 src={getImageUrl(item.image)}
                 alt={item.name}
+                loading="lazy"
+                decoding="async"
                 onError={(e) => { e.target.src = 'https://placehold.co/80x80?text=No+Image'; }}
               />
               <div className="order-item-info">

@@ -236,6 +236,8 @@ function Checkout({ onCartUpdate }) {
                   <img
                     src={getImageUrl(item.image)}
                     alt={item.name}
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => { e.target.src = 'https://placehold.co/60x60?text=No+Image'; }}
                   />
                   <div className="checkout-item-info">

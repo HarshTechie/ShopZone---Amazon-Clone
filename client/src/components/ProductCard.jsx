@@ -22,6 +22,10 @@ function ProductCard({ product, onAddToCart, onAddToWishlist }) {
         <img
           src={getImageUrl(product.primary_image)}
           alt={product.name}
+          loading="lazy"
+          decoding="async"
+          width="240"
+          height="240"
           onError={(e) => { e.target.src = 'https://placehold.co/300x300?text=No+Image'; }}
         />
         <button className="wishlist-heart-btn" onClick={handleAddToWishlist} title="Add to Wishlist">

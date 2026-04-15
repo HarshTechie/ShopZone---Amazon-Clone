@@ -6,6 +6,7 @@ const SERVER_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const API = axios.create({
   baseURL: `${SERVER_URL}/api`,
+  timeout: 30000, // 30s — prevents frontend hangs if backend is slow/down
 });
 
 // Convert a local image path (e.g. /images/foo.jpg) to a full URL

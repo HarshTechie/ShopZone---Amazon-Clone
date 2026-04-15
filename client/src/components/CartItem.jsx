@@ -9,6 +9,8 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
         src={getImageUrl(item.image)}
         alt={item.name}
         className="cart-item-image"
+        loading="lazy"
+        decoding="async"
         onError={(e) => { e.target.src = 'https://placehold.co/150x150?text=No+Image'; }}
       />
       <div className="cart-item-details">

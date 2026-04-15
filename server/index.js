@@ -34,8 +34,17 @@ app.use(
 
 app.use(express.json());
 
-// Serve product images as static files: /images/filename.jpg
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+// Serve product images as static files with 7-day cache (browser + CDN)
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'public', 'images'), {
+    maxAge: '7d',
+    immutable: true,
+    setHeaders: (res) => {
+      res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+    },
+  })
+);
 
 // Root route — health check for load balancers + friendly message
 app.get('/', (req, res) => {

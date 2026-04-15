@@ -28,6 +28,8 @@ function ImageCarousel({ images }) {
             <img
               src={getImageUrl(img.image_url)}
               alt={`View ${index + 1}`}
+              loading="lazy"
+              decoding="async"
               onError={(e) => { e.target.src = PLACEHOLDER; }}
             />
           </div>
@@ -37,6 +39,7 @@ function ImageCarousel({ images }) {
         <img
           src={getImageUrl(images[selectedIndex].image_url)}
           alt="Product"
+          decoding="async"
           onError={(e) => { e.target.src = PLACEHOLDER; }}
         />
       </div>

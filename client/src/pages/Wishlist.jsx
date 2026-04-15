@@ -75,6 +75,8 @@ function Wishlist({ onCartUpdate }) {
                   <img
                     src={getImageUrl(item.primary_image)}
                     alt={item.name}
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => { e.target.src = 'https://placehold.co/200x200?text=No+Image'; }}
                   />
                 </Link>

@@ -96,29 +96,25 @@ router.post('/', async (req, res) => {
 
     await client.query('COMMIT');
 
-    // Send confirmation email AFTER successful commit
-    // Awaited so we get proper logging, but wrapped in try-catch so it never blocks the order response
+    // Respond to client IMMEDIATELY after commit — don't wait for email
+    // Email is fire-and-forget: runs in background, never blocks the response
     const userResult = await pool.query('SELECT email FROM users WHERE id = $1', [req.userId]);
     const userEmail = userResult.rows[0]?.email;
 
     if (userEmail) {
-      console.log(`[Order #${orderId}] Triggering confirmation email to ${userEmail}...`);
-      try {
-        await sendOrderConfirmationEmail({
-          to: userEmail,
-          orderId,
-          items: cartResult.rows,
-          totalAmount: Math.round(totalAmount * 100) / 100,
-          shipping: { name: shipping_name, address: shipping_address, city: shipping_city, state: shipping_state, zip: shipping_zip },
-          paymentMethod: paymentMethodUpper,
-          paymentStatus,
-        });
-      } catch (emailErr) {
-        // Email failure must never affect the order response
-        console.error(`[Order #${orderId}] Email send threw unexpectedly:`, emailErr.message);
-      }
-    } else {
-      console.log(`[Order #${orderId}] No email address found for user ${req.userId}, skipping email`);
+      console.log(`[Order #${orderId}] Queueing background email to ${userEmail}...`);
+      // NO await — runs in background. .catch() prevents unhandled rejection.
+      sendOrderConfirmationEmail({
+        to: userEmail,
+        orderId,
+        items: cartResult.rows,
+        totalAmount: Math.round(totalAmount * 100) / 100,
+        shipping: { name: shipping_name, address: shipping_address, city: shipping_city, state: shipping_state, zip: shipping_zip },
+        paymentMethod: paymentMethodUpper,
+        paymentStatus,
+      }).catch((emailErr) => {
+        console.error(`[Order #${orderId}] Background email failed:`, emailErr.message);
+      });
     }
 
     res.status(201).json({

@@ -23,6 +23,10 @@ async function initTransporter() {
         user: GMAIL_USER,
         pass: GMAIL_APP_PASSWORD,
       },
+      // Prevent hangs on slow SMTP connections
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
 
     // Verify the SMTP connection is working
